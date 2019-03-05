@@ -11,6 +11,7 @@ import sys
 BOARDWIDTH = 7
 BOARDHEIGHT = 6
 
+
 '''
 def main():
     """
