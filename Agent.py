@@ -30,23 +30,25 @@ class CFAgent:
     OpponentTile = None
     BoardWidth = 0
     boardHeight = 0
+    MctsIters = 300
+
 
     # Initialize
-    def __init__(self, myTile, oppoTile, boardWidth, boardHeight):
+    def __init__(self, myTile, oppoTile, boardWidth, boardHeight, mctsIters=300):
         self.MyTile = myTile
         self.OpponentTile = oppoTile
         self.BoardWidth = boardWidth
         self.boardHeight = boardHeight
+        self.MctsIters = mctsIters
 
     # Agent decides what move to play next given board position
-    def decideMove(self, board):
+    def decideMove(self, board, verbose=False):
         ## Initialize current search tree ##
         TreeRoot = MctsTreeNode(board, isPlayerTurn=True)
 
         ## Monte-Carlo Tree Search until budget runs out ##
         iters = 0
-        iterMax = 300
-        while(iters < iterMax):
+        while(iters < self.MctsIters):
             self.McTreeSeach(TreeRoot)
             iters += 1
 
@@ -56,8 +58,9 @@ class CFAgent:
         cVals = [ float(u)/float(v) for u, v in zip(cUtils, cVisits)]
 
         # Return index of best move
-        print("Agent move values:")
-        print(cVals)
+        if verbose:
+            print("Agent move values:")
+            print(cVals)
         return cVals.index(max(cVals))
 
 
